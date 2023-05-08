@@ -1,0 +1,39 @@
+# Project: Launcher
+# Makefile created by Embarcadero Dev-C++ 6.3
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+RES      = Launcher_private.res
+OBJ      = main.o php.o $(RES)
+LINKOBJ  = main.o php.o $(RES)
+LIBS     = -L"./TDM-GCC-64/lib" -L"./TDM-GCC-64/x86_64-w64-mingw32/lib" -static-libgcc -mwindows
+INCS     = -I"./TDM-GCC-64/include" -I"./TDM-GCC-64/x86_64-w64-mingw32/include" -I"./TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include"
+CXXINCS  = -I"./TDM-GCC-64/include" -I"./TDM-GCC-64/x86_64-w64-mingw32/include" -I"./TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include" -I"./TDM-GCC-64/lib/gcc/x86_64-w64-mingw32/9.2.0/include/c++"
+BIN      = Launcher.exe
+CXXFLAGS = $(CXXINCS) -std=gnu++17 -lstdc++fs
+CFLAGS   = $(INCS) -std=gnu++17
+DEL      = E:\utilisateur\Desktop\DevC++Port\devcpp.exe INTERNAL_DEL
+
+.PHONY: all all-before all-after clean clean-custom generate-header 
+
+generate-header:
+	cmd /C generate_header.bat
+
+all: generate-header all-before $(BIN) all-after
+
+
+clean: clean-custom
+	${DEL} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+main.o: main.cpp
+	$(CPP) -c main.cpp -o main.o $(CXXFLAGS) 
+
+php.o: php.cpp
+	$(CPP) -c php.cpp -o php.o $(CXXFLAGS)
+
+Launcher_private.res: Launcher_private.rc 
+	$(WINDRES) -i Launcher_private.rc --input-format=rc -o Launcher_private.res -O coff 
